@@ -34,7 +34,7 @@ function Card() {
 
   return (
     <div >
-        <div className="grid grid-cols-1 mx-4 mt-16 gap-11" >
+        <div className="grid grid-cols-1 mx-4 mt-16 gap-11 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:px-44" >
       {Cardcard.map((card) => (
         <div key={card.id} className="relative" >
             

@@ -2,8 +2,8 @@
 
 function Footer() {
   return (
-    <div className="px-2 py-5">
-      <div className="grid grid-cols-1 gap-4">
+    <div className="px-2 py-5 2xl:px-44">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <div>
         <div className="flex">
             <img src="images/logo 1.png" alt="" /> <h1 className="relative -bottom-6 text-2xl font-sans font-semibold text-[#101A24]">restaurant</h1>
@@ -43,8 +43,8 @@ function Footer() {
         </div>
       </div>
       <div className="text-xl text-[#101A24]">
-        <h2 className="text-xl font-semibold">Opening Hours</h2>
-        <div className="grid grid-cols-1 gap-5 mt-3">
+        <h2 className="text-xl font-semibold sm:mt-6">Opening Hours</h2>
+        <div className="grid grid-cols-1 gap-5 mt-3 sm:grid-cols-2 xl:grid-cols-3">
           <div>
             <h5 className="text-lg font-normal">Monday - Friday</h5>
             <p>8am to 9pm</p>
@@ -62,9 +62,9 @@ function Footer() {
         </div>
       </div>
       <hr />
-      <div className="text-[#101A24] flex gap-2 py-3">
-        <p>&copy; 2022 Restaurants. All Right Reserved. Designed by Isaac</p>
-        <div>
+      <div className="text-[#101A24] flex gap-2 py-3 sm:justify-between">
+        <p>&copy; 2022 Restaurants. All Right Reserved. Developed by Kiddo</p>
+        <div className="sm:flex sm:gap-4">
           <p>Terms</p>
           <p>Policy</p>
         </div>

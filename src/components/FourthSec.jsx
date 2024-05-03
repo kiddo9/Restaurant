@@ -14,17 +14,17 @@ function FourthSec() {
           <img src="images/Group9.png" alt=""  className="absolute mt-5"/>
         </div>
         <div>
-          <h1 className="text-[#101A24] text-center text-3xl font-bold" data-aos="fade-down" data-aos-duration="1200" data-aos-delay="700">Our Happy Customers</h1>
-          <p className="text-[#5C6574] text-center" data-aos="fade-down" data-aos-duration="1200" data-aos-delay="700">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt </p>
+          <h1 className="text-[#101A24] text-center text-3xl font-bold sm:text-5xl" data-aos="fade-down" data-aos-duration="1200" data-aos-delay="700">Our Happy Customers</h1>
+          <p className="text-[#5C6574] text-center sm:text-xl" data-aos="fade-down" data-aos-duration="1200" data-aos-delay="700">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt </p>
 
           <div>
-            <div  className="flex w-screen overflow-x-scroll" data-aos="fade-in" data-aos-duration="1200" data-aos-delay="700">
-            <div className="relative mx-3">
+            <div  className="flex w-screen overflow-x-scroll 2xl:overflow-hidden 2xl:justify-center" data-aos="fade-in" data-aos-duration="1200" data-aos-delay="700">
+            <div className="relative mx-3 lg:mx-28">
               <div className="relative flex justify-center top-10">
                 <img src="images/person-1.png" alt="" className="rounded-full"/>
               </div>
 
-              <div className="bg-white text-[#101A24] z-50 rounded-tl-[30%] rounded-br-[30%] px-10 py-10 w-72">
+              <div className="bg-white text-[#101A24] z-50 rounded-tl-[30%] rounded-br-[30%] px-10 py-10 w-72 sm:w-96 lg:w-12/12 2xl:w-12/12">
                 <p>Lorem ipsum dolor sit amet consectetur. Tortor massa nisl quam sit. Vitae congue ultrices neque penatibus mi in quisque. Leo in cursus enim magnis ante. Proin iaculis platea ipsum sagittis ac eu aliquam quis. Ornare tincidunt tempus semper 
                 </p>
                 <h4 className="mt-6 text-xl font-bold text-center">Ama Ampomah</h4>
@@ -36,7 +36,7 @@ function FourthSec() {
                 <img src="images/person-2.png" alt="" className=""/>
               </div>
 
-              <div className="bg-white text-[#101A24] z-50 rounded-tl-[30%] rounded-br-[30%] px-10 py-10 w-72">
+              <div className="bg-white text-[#101A24] z-50 rounded-tl-[30%] rounded-br-[30%] px-10 py-10 w-72 sm:w-96 lg:w-12/12">
                 <p>Lorem ipsum dolor sit amet consectetur. Tortor massa nisl quam sit. Vitae congue ultrices neque penatibus mi in quisque. Leo in cursus enim magnis ante. Proin iaculis platea ipsum sagittis ac eu aliquam quis. Ornare tincidunt tempus semper 
                 </p>
                 <h4 className="mt-6 text-xl font-bold text-center">Kweku Annan</h4>
