@@ -75,3 +75,16 @@
   transform-origin: left;
   transform: rotateZ(-45deg) translate(-5px, 5px);
 }
+
+.loader {
+  animation: circle 2s linear infinite;
+}
+
+@keyframe circle {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.5);
+  }
+}

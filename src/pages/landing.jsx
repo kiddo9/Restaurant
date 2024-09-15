@@ -5,7 +5,7 @@ import Footer from '../components/Footer'
 function landing() {
   return (
     <div>
-      <Nav />
+      <Nav /> 
       <Content />
       <Footer />
     </div>

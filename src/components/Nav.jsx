@@ -1,10 +1,18 @@
 import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom";
+//import {Link} from 'react-router-dom'
 
 function Nav() {
   const [IsMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!IsMenuOpen);
+  }
+
+  const navigate = useNavigate();
+
+  const Book = () => {
+    navigate('/Auth')
   }
 
   return (
@@ -18,7 +26,7 @@ function Nav() {
           <div className="text-[#101A24] lg:flex lg:mx-auto lg:w-7/12 xl:w-6/12 2xl:4/12">
 
 
-         
+         {/* {!IsMenuOpen && ( */}
             <div className="hamburger lg:hidden" onClick={toggleMenu}>
               <input className="checkbox" type="checkbox" />
                 <svg fill="none" viewBox="0 0 50 50" height="50" width="50">
@@ -45,12 +53,14 @@ function Nav() {
                   ></path>
                 </svg>
             </div>
+         {/* )} */}
+
 
 
 
                 {IsMenuOpen && (
                    <ul className={`fixed overflow-scroll bottom-0 left-0 right-0 flex flex-col gap-10 px-4 py-4 bg-white top-[7.5rem] transition-transform ${IsMenuOpen ? '-translate-x-0 duration-1000' : 'translate-x-full'}`}>
-                    <li className="py-4 text-xl border-b-4 border-[#101A24]">Menu</li>
+                    <li className="py-4 text-xl border-b-4 border-[#101A24]"><Link to='/menu' onClick={() => setIsMenuOpen(false)} >Menu</Link></li>
                     <li className="py-4 text-xl border-b-4 border-[#101A24]">Events</li>
                     <li className="py-4 text-xl text-[#EA6D27] border-b-4 border-[#EA6D27]">Gallery</li>
                     <li className="py-4 text-xl border-b-4 border-[#101A24]">About</li>
@@ -60,7 +70,7 @@ function Nav() {
                 
                 
                 <ul className="hidden lg:flex lg:justify-between lg:w-full lg:self-center lg:text-xl">
-                    <li className="">Menu</li>
+                  <Link to='/menu'><li className="">Menu</li></Link>  
                     <li className="">Events</li>
                     <li className="">Gallery</li>
                     <li className="">About</li>
@@ -70,7 +80,7 @@ function Nav() {
           </div>
 
             <div className="bg-[#EA6D27] px-3 py-2 rounded-tl-2xl rounded-br-2xl">
-                <button className="my-auto text-sm font-semibold">Book a table</button>
+                <button className="my-auto text-sm font-semibold" onClick={Book}>Book a table</button>
             </div>
         </nav>
       </div>

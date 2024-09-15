@@ -8,6 +8,7 @@ function InfoSec() {
     AOS.init();
   }, [])
 
+
   return (
     <div>
             <div className="text-[#5C6574] flex flex-col gap-10 -mt-14 mx-2 sm:mx-10 lg:-top-[40rem] lg:relative xl:-top-[53rem] 2xl:-top-[44rem]">
