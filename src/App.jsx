@@ -55,6 +55,7 @@ function App() {
             <Route path='/Member/table' element={<Mtable />} />
             <Route path='/Member/booking' element={<Mbooking />} />
             <Route path='/Auth/Admin' element={<AdminLogin />} />
+            <Route path='/Admin/Dashbored' element={<AdminDashbored />} />
 
             {/* Guest Routes */}
             {GuestPath && (
@@ -67,7 +68,7 @@ function App() {
             {/* Admin Routes */}
             {AdminPath && (
               <>
-                <Route path='/Admin/Dashbored' element={<AdminDashbored />} />
+               
                 <Route path='/Admin/Charts' element={<Charts />} />
                 <Route path='/Admin/History' element={<History />} />
                 <Route path='/Admin/Users' element={<Users />} />
