@@ -75,9 +75,6 @@ function Nav() {
                     <li className="">Gallery</li>
                     <li className="">About</li>
                     <li className="">Contact</li>
-                    <NavLink to='/Admin/Dashbored'>
-                      <li>Admin</li>
-                    </NavLink>
                   </ul>
                       
           </div>
