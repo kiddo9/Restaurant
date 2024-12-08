@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 //import {Link} from 'react-router-dom'
 
 function Nav() {
@@ -60,7 +60,7 @@ function Nav() {
 
                 {IsMenuOpen && (
                    <ul className={`fixed overflow-scroll bottom-0 left-0 right-0 flex flex-col gap-10 px-4 py-4 bg-white top-[7.5rem] transition-transform ${IsMenuOpen ? '-translate-x-0 duration-1000' : 'translate-x-full'}`}>
-                    <li className="py-4 text-xl border-b-4 border-[#101A24]"><Link to='/menu' onClick={() => setIsMenuOpen(false)} >Menu</Link></li>
+                    <li className="py-4 text-xl border-b-4 border-[#101A24]"><NavLink to='/menu' onClick={() => setIsMenuOpen(false)} >Menu</NavLink></li>
                     <li className="py-4 text-xl border-b-4 border-[#101A24]">Events</li>
                     <li className="py-4 text-xl text-[#EA6D27] border-b-4 border-[#EA6D27]">Gallery</li>
                     <li className="py-4 text-xl border-b-4 border-[#101A24]">About</li>
@@ -70,7 +70,7 @@ function Nav() {
                 
                 
                 <ul className="hidden lg:flex lg:justify-between lg:w-full lg:self-center lg:text-xl">
-                  <Link to='/menu'><li className="">Menu</li></Link>  
+                  <NavLink to='/menu'><li className="">Menu</li></NavLink>  
                     <li className="">Events</li>
                     <li className="">Gallery</li>
                     <li className="">About</li>

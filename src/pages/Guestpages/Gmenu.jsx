@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom"
 
 
 function Gmenu() {
@@ -37,16 +38,17 @@ function Gmenu() {
         },
     ]
 
+    const submenu = ['All', 'Bearkfast', 'Snacks', 'Lunch', 'Dinner', 'Deserret'] 
+
   return (
     <>
     <div className="sticky top-0 w-full px-1 py-3 my-5 overflow-x-scroll bg-gray-100 xl:overflow-x-hidden">
         <ul className="flex justify-between w-full gap-20 py-3 pr-3">
-            <li className="px-3 py-1 font-bold text-white bg-gray-400 rounded-lg ">All</li>
-            <li>Breakfast</li>
-            <li>Snacks</li>
-            <li>Lunch</li>
-            <li>Dinner</li>
-            <li>Deserret</li>
+         {submenu.map((menu, index) => (
+            <li className="cursor-pointer" key={index}>
+                <NavLink to={''}>{menu}</NavLink>
+            </li>
+         ))}
         </ul>
     </div>
     <div className="flex flex-col gap-5 px-2 mt-2 sm:grid sm:grid-cols-2 xl:grid xl:grid-cols-3">

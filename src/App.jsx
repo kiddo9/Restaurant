@@ -14,34 +14,74 @@ import Gbooking from './pages/Guestpages/Gbooking'
 import Mtable from './pages/MembersPages/Mtable'
 import Mbooking from './pages/MembersPages/Mbooking'
 
+import AdminLogin from './pages/Admin/Login'
+import AdminDashbored from './pages/Admin/Dashbored'
+import AdminNav from './components/Admin/AdminNav'
+import Charts from './pages/Admin/Charts'
+import History from './pages/Admin/History'
+import Users from './pages/Admin/Users'
+import Settings from './pages/Admin/Settings'
+import {Context} from './components/URL/context'
+import AdminMenu  from './pages/Admin/Menu'
+import NotFound from './components/NotFound'
+
+
 function App() {
   
+  const AdminPath = location.pathname.startsWith('/Admin')
+  const GuestPath = location.pathname.startsWith('/Guest')
 
   return (
     <>
-    <div>
-      <BrowserRouter>
-      {/* <Nav /> */}
-        <Routes>
-          <Route path='/' element={<Landing />} />
-          <Route path='/menu' element={<Menu />} />
-          <Route path='/Login' element={<Login />} />
-          <Route path='/member' element={<Option />} />
-          <Route path='/Auth' element={<AuthOption />} />
-          <Route path='/Auth/Signup' element={<Option />} />
-          <Route path='/Auth/Login' element={<Option />} />
-          <Route path='/Auth/Signup/:id' element={<Signup />} />
-          <Route path='/Auth/Login/:id' element={<Login />} />
-          <Route path='/Auth/EmailVerify/:id' element={<TokenVerify />} />
-          <Route path='/dashbored/:id' element={<Dashbored />} />
-          <Route path='/Guest/guest table' element={<Gtable />} />
-          <Route path='/Guest/guestBooking' element={<Gbooking />} />
-          <Route path='/Member/table' element={<Mtable />} />
-          <Route path='/Member/booking' element={<Mbooking />} />
-        </Routes>
-      {/* <Footer /> */}
-      </BrowserRouter>
-    </div>
+     <BrowserRouter>
+      <Context> {/* Wrapping entire app with Context */}
+        <div>
+          {/* Render AdminNav conditionally based on AdminPath */}
+          {AdminPath && <AdminNav />}
+
+          {/* Main Navigation Routes */}
+          <Routes>
+            <Route path='/' element={<Landing />} />
+            <Route path='/menu' element={<Menu />} />
+            <Route path='/Login' element={<Login />} />
+            <Route path='/member' element={<Option />} />
+            <Route path='/Auth' element={<AuthOption />} />
+            <Route path='/Auth/Signup' element={<Option />} />
+            <Route path='/Auth/Login' element={<Option />} />
+            <Route path='/Auth/Signup/:id' element={<Signup />} />
+            <Route path='/Auth/Login/:id' element={<Login />} />
+            <Route path='/Auth/EmailVerify/:id' element={<TokenVerify />} />
+            <Route path='/dashbored/:id' element={<Dashbored />} />
+            <Route path='/Member/table' element={<Mtable />} />
+            <Route path='/Member/booking' element={<Mbooking />} />
+            <Route path='/Auth/Admin' element={<AdminLogin />} />
+
+            {/* Guest Routes */}
+            {GuestPath && (
+              <>
+                <Route path='/Guest/guesttable' element={<Gtable />} />
+                <Route path='/Guest/guestBooking' element={<Gbooking />} />
+              </>
+            )}
+
+            {/* Admin Routes */}
+            {AdminPath && (
+              <>
+                <Route path='/Admin/Dashbored' element={<AdminDashbored />} />
+                <Route path='/Admin/Charts' element={<Charts />} />
+                <Route path='/Admin/History' element={<History />} />
+                <Route path='/Admin/Users' element={<Users />} />
+                <Route path='/Admin/Settings' element={<Settings />} />
+                <Route path='/Admin/Menu' element={<AdminMenu />} />
+              </>
+            )}
+
+            {/* Catch-all Route */}
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </div>
+      </Context>
+    </BrowserRouter>
     </>
   )
 }
