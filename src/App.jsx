@@ -55,7 +55,6 @@ function App() {
             <Route path='/Member/table' element={<Mtable />} />
             <Route path='/Member/booking' element={<Mbooking />} />
             <Route path='/Auth/Admin' element={<AdminLogin />} />
-            
 
             {/* Guest Routes */}
             {GuestPath && (
@@ -66,13 +65,16 @@ function App() {
             )}
 
             {/* Admin Routes */}
-               <Route path='/Admin/Dashbored' element={<AdminDashbored />} />
+            {AdminPath && (
+              <>
+                <Route path='/Admin/Dashbored' element={<AdminDashbored />} />
                 <Route path='/Admin/Charts' element={<Charts />} />
                 <Route path='/Admin/History' element={<History />} />
                 <Route path='/Admin/Users' element={<Users />} />
                 <Route path='/Admin/Settings' element={<Settings />} />
                 <Route path='/Admin/Menu' element={<AdminMenu />} />
-            
+              </>
+            )}
 
             {/* Catch-all Route */}
             <Route path='*' element={<NotFound />} />
