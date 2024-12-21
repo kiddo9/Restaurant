@@ -1,5 +1,7 @@
+//import the necessary components and others
+
+
 import { useRef, useState } from "react"
-import { useNavigate } from "react-router-dom";
 import AdminHeader from "../../components/Admin/AdminHeader"
 import FormC from "../../components/FormC";
 import FormInput from "../../components/FormInput"
@@ -12,6 +14,8 @@ import SuccessError from "../../components/SuccessError";
 import Loader from "../../components/Loader";
 import useDishes from "../../components/FetchData/Dishes";
 
+
+
 // menu form validation
 const formDishValidation = Yup.object({
     dishName: Yup.string().required('dish name is missing'),
@@ -19,6 +23,8 @@ const formDishValidation = Yup.object({
     dishImage: Yup.mixed().required('add an image'),
     Dishdescription: Yup.string().required("please include a description")
 })
+
+
 
 // Table form validation
 const formTableValidation = Yup.object({
@@ -29,8 +35,11 @@ const formTableValidation = Yup.object({
     tableType: Yup.string().required("please include the table")
 })
 
+
+// main function 
 function Menu(){
 
+    //State management
     const [openTable, setOpenTable] = useState(false);
     const [openSubmenu, setOpenSubmenu] = useState(false)
     const [openMenuForm, setOpenMenuForm] = useState(false)
@@ -42,19 +51,20 @@ function Menu(){
     const [error, setError] = useState()
     const [message, setMessage] = useState()
     const [loading, setLoading] = useState(false)
+    const [resfreshData, setResfreshData] = useState(0)
 
 
     const DishImage = useRef(null);
     const tableImage = useRef(null);
 
-    const {dish} = useDishes()
-    const Nav = useNavigate()
+    const {dishes} = useDishes(resfreshData) // custom hook to fetch all dishes
 
+    // arrow function to reset and refresh page
     const reset = () => {
         setSuccess(false)
-        Nav('/Admin/Menu')
+        setResfreshData((prev) => prev + 1)
     }
-    console.log(dish);
+
     
     // menu init value
      const dishInitValue = {
@@ -74,15 +84,17 @@ function Menu(){
      }
 
 
+     // custom dish click button to add image
     function ImageMenu(){
         DishImage.current.click()
     }
 
+    // custom table click button to add image
     function TableImage(){
         tableImage.current.click()
     }
 
-    // dish change
+    //function to change the image . dish change
     const handleChange = (event) => {
         const file = event.target.files[0];
         if (file) { 
@@ -95,7 +107,7 @@ function Menu(){
     };
     
 
-      //Table change
+      //function to change the image .Table change
     function handleTChange(event){
         const file = event.target.files;
 
@@ -106,6 +118,7 @@ function Menu(){
         }
     }
 
+    //function to open dish form
     function Dish(){
         setOpenSubmenu(true)
         setOpenMenuForm(true)
@@ -113,6 +126,7 @@ function Menu(){
         setOpenTableForm(false)
     }
 
+    //function to open table form
     function Table(){
         setOpenSubmenu(true)
         setOpenTableForm(true)
@@ -120,6 +134,9 @@ function Menu(){
         setOpenMenuForm(false)
     }
 
+
+
+    // handle dish form submission
     async function handleDishSubmission(value, {resetForm}){
         setLoading(true)
         try {
@@ -153,6 +170,33 @@ function Menu(){
         }
     }
 
+
+    //handle dish deletions
+     async function Terminate(id){
+        setLoading(true)
+        const terminateDish = await Axios.delete(`${Api}/delete/dish/${id}`)
+
+        try {
+            setLoading(false)
+            if(terminateDish.data.success == true){
+                setSuccess(true)
+                setMessage(terminateDish.data.message)
+            }else{
+                setError(true)
+                setMessage(terminateDish.data.message) 
+            }
+            
+        } catch (error) {
+            setLoading(false)
+            setError(true)
+            console.log(error);
+            setMessage(terminateDish.data.message)
+        }
+    }
+
+
+
+    //handle table form submission
     function handleTableSubmission(value, {resetForm}){
 
         try {
@@ -169,7 +213,7 @@ function Menu(){
 
     
     return(
-        <div className="text-black">
+        <div className="text-black overflow-x-hidden">
             {
                 loading && (
                     <Loader />
@@ -273,7 +317,7 @@ function Menu(){
                     <input type="text" placeholder="Filter user by Search" className="w-96 pl-3 py-1 bg-transparent border-0 outline-0" />
                 </div>
 
-                <div className={`absolute right-28 w-52 rounded-xl top-14 md:top-20 flex flex-col bg-white shadow-2xl shadow-black ${toggle ? 'translate-x-0  transition ease-out duration-300' : 'translate-x-[200%] transition ease-out duration-300'}`}>
+                <div className={`fixed right-28 w-52 rounded-xl top-14 md:top-20 flex flex-col bg-white shadow-2xl shadow-black ${toggle ? 'translate-x-0  transition ease-out duration-300' : 'translate-x-[200%] transition ease-out duration-300'}`}>
                     <button className="px-2 py-1 bg-black text-white mx-3 my-2 rounded-xl" onClick={Dish}>Add new dish</button>
                     <button className="px-2 py-1 bg-[#EA6D27] text-white mx-3 my-2 rounded-xl" onClick={Table}>Add new table</button>
                 </div>
@@ -289,6 +333,8 @@ function Menu(){
                     <button onClick={() => setOpenTable(true)} className={`${openTable == true ? 'border-b-2 border-b-[#EA6D27] w-40' : ''}`}>Tables</button>
                 </div>
 
+
+
             {/* menu table */}
                 <div className={`mt-5 h-[30rem] overflow-x-scroll md:overflow-x-hidden ${openTable == true ? 'hidden' : 'block'}`} id="table">
                     <table className="md:w-full w-[300%] text-center">
@@ -302,31 +348,36 @@ function Menu(){
                             <th></th>
                         </thead>
                         <tbody className="">
-                            <tr className="h-10">
-                                <td>02.03.2021</td>
-                                <td>Hazly wislon</td>
-                                <td>$50</td>
-                                <td className="flex justify-center items-center"><img src="/public/images/dish-2 1.png" alt="" className="w-10 h-10" /></td>
-                                <td>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                    </svg>
-                                </td>
-                                <td>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                    </svg>
-                                </td>
-                                <td>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                    </svg>
-                                </td>
-                            </tr>
+                        {dishes.map((dish) => (
+                             <tr key={dish.id} className="h-10">
+                             <td className="py-5">{dish.updatedAt}</td>
+                             <td>{dish.dishName}</td>
+                             <td>{dish.dishPrice}</td>
+                             <td className="flex justify-center items-center"><img src={dish.dishImage} alt="" className="w-10 h-10" /></td>
+                             <td>
+                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                 </svg>
+                             </td>
+                             <td>
+                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                     <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                 </svg>
+                             </td>
+                             <td className="cursor-pointer" onClick={() => Terminate(dish.id)}>
+                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                     <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                 </svg>
+                             </td>
+                         </tr>
+                        ))}
+                           
                         </tbody>
                     </table>
                 </div>
+
+
 
                 {/* tables table */}
 
@@ -373,6 +424,7 @@ function Menu(){
                 )}
 
                 
+
                 {/* pagenation */}
 
                 <div className={`flex justify-center mt-8`}>
@@ -404,4 +456,4 @@ function Menu(){
     )
 }
 
-export default Menu
+export default Menu   // export the menu function

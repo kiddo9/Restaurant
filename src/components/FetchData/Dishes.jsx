@@ -1,22 +1,24 @@
-import Axios  from "axios"
-import { useEffect, useState } from "react"
-import Api from "../URL/Api"
+import Axios from "axios";
+import { useEffect, useState } from "react";
+import Api from "../URL/Api";
 
-
-const useDishes = () => {
-    const [dish, setDish] = useState([])
+const useDishes = (resfreshData) => {
+  const [dishes, setDishes] = useState([]); // Renamed to "dishes" for clarity
 
   useEffect(() => {
-    const Request = () =>{
-        const Fetch = Axios.get(`${Api}/getDishes`)
-        const response = Fetch.data
-        setDish(response)
-    }
+    const fetchDishes = async () => {
+      try {
+        const response = await Axios.get(`${Api}/getDishes`); // Await API response
+        setDishes(response.data); // Set dishes data
+      } catch (err) {
+        console.error("Error fetching dishes:", err.message);
+      }
+    };
 
-    Request();
-  }, [])
+    fetchDishes();
+  }, [resfreshData]);
 
-  return {dish}
-}
+  return { dishes };
+};
 
-export default useDishes
+export default useDishes;
