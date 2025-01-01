@@ -88,7 +88,7 @@ function Users(){
                         </ul>
                     </div>
 
-                <div className={`${staff == true ? 'block h-[30rem]' : 'hidden'}`}>
+                <div className={`${staff == true ? 'block h-[30rem]' : 'hidden'} mt-5 overflow-x-scroll md:overflow-x-hidden`}>
                     <table className="md:w-full w-[300%] text-center mt-12">
                             <thead>
                                 <th>CreatedAt</th>
