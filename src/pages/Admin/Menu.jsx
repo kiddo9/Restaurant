@@ -257,6 +257,7 @@ function Menu(){
             if(terminateTable.data.success == true){
                 setSuccess(true)
                 setMessage(terminateTable.data.message)
+                setOpenTable(true)
             }else{
                 setError(true)
                 setMessage(terminateTable.data.message)
@@ -388,6 +389,8 @@ function Menu(){
                 setMessage(updateTable.data.message)
             }
 
+            setOpenTable(true)
+
         } catch (error) {
             console.log(error);
             setLoading(false)
@@ -458,7 +461,7 @@ function Menu(){
         setEditDish(false)
         setOpenTableForm(false)
         setOpenMenuForm(false)
-        setOpenTable(false)
+        setOpenTable(true)
     }
 
 
@@ -499,6 +502,7 @@ function Menu(){
                 setSuccess(true)
                 setMessage(deleteTableRequest.data.message)
                 getSpecificTable(id)
+                setOpenTable(true)
             }else{
                 setLoading(false)
                 setError(true)
@@ -535,6 +539,7 @@ function Menu(){
             setOpenSubmenu(false)
             setSuccess(true)
             setMessage(Response.message)
+            setOpenTable(true)
         }else{
             setLoading(false)
             setError(Response.message)
@@ -807,12 +812,28 @@ function Menu(){
 
             <div className="mt-8 lg:ml-72">
 
-                <div className="w-96 bg-gray-300 mx-1 md:w-[40rem] md:mx-auto flex mt-10 py-3 px-2 rounded-xl items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                         <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                    </svg>
-                    <input type="text" placeholder="Filter user by Search" className="w-96 pl-3 py-1 bg-transparent border-0 outline-0" />
-                </div>
+                {
+                    !openTable && (
+                        <div className="w-96 bg-gray-300 mx-1 md:w-[40rem] md:mx-auto flex mt-10 py-3 px-2 rounded-xl items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                            </svg>
+                            <input type="text" placeholder="Filter dish by Search" className="w-96 pl-3 py-1 bg-transparent border-0 outline-0" />
+                        </div>
+                    )
+                }
+                
+
+                {
+                    openTable && (
+                        <div className="w-96 bg-gray-300 mx-1 md:w-[40rem] md:mx-auto flex mt-10 py-3 px-2 rounded-xl items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                             <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                        </svg>
+                        <input type="text" placeholder="Filter table by Search" className="w-96 pl-3 py-1 bg-transparent border-0 outline-0" />
+                    </div> 
+                    )
+                }
 
                 <div className={`fixed right-28 w-52 rounded-xl top-14 md:top-20 flex flex-col bg-white shadow-2xl shadow-black ${toggle ? 'translate-x-0  transition ease-out duration-300' : 'translate-x-[200%] transition ease-out duration-300'}`}>
                     <button className="px-2 py-1 bg-black text-white mx-3 my-2 rounded-xl" onClick={Dish}>Add new dish</button>
@@ -824,6 +845,9 @@ function Menu(){
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                     </svg>
                 </div>
+
+
+
 
                 <div className="text-xl mt-12 flex justify-around">
                     <button className={`${openTable != true ? 'border-b-2 border-b-[#EA6D27] w-40' : ''}`} onClick={() => setOpenTable(false)}>Menus</button>
