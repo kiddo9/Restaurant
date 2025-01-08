@@ -65,7 +65,8 @@ function Menu(){
     const [edittable, setEditTable] = useState(false)
     const [dishDeleteComfirmation, setDishDeleteComfirmation] = useState(false)
     const [tableDeleteComfirmation, setTableDeleteComfirmation] = useState(false)
-
+    const [searchTerms, setSearchTerms] = useState("")
+    const [searchTermsT, setSearchTermsT] = useState("")
       
       
 
@@ -552,6 +553,7 @@ function Menu(){
     }
         
     }
+  
 
     
     return(
@@ -818,7 +820,7 @@ function Menu(){
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                             </svg>
-                            <input type="text" placeholder="Filter dish by Search" className="w-96 pl-3 py-1 bg-transparent border-0 outline-0" />
+                            <input type="text" placeholder="Filter dish by Search"  onChange={(e) => setSearchTerms(e.target.value)} className="w-96 pl-3 py-1 bg-transparent border-0 outline-0" />
                         </div>
                     )
                 }
@@ -830,7 +832,7 @@ function Menu(){
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                              <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                         </svg>
-                        <input type="text" placeholder="Filter table by Search" className="w-96 pl-3 py-1 bg-transparent border-0 outline-0" />
+                        <input type="text" placeholder="Filter table by Search" onChange={(e) => setSearchTermsT(e.target.value)} className="w-96 pl-3 py-1 bg-transparent border-0 outline-0" />
                     </div> 
                     )
                 }
@@ -872,7 +874,11 @@ function Menu(){
                             <th></th>
                         </thead>
                         <tbody className="">
-                        {dishes.map((dish) => (
+                            {
+                                
+                        dishes.filter((items) => {
+                            return items.dishName.toLowerCase().includes(searchTerms)
+                        }).map((dish) => (
                              <tr key={dish.id} className="h-10">
                              <td className="py-5">{dish.updatedAt}</td>
                              <td>{dish.dishName}</td>
@@ -895,8 +901,8 @@ function Menu(){
                                  </svg>
                              </td>
                          </tr>
-                        ))}
-                           
+                        ))
+                }
                         </tbody>
                     </table>
 
@@ -924,7 +930,9 @@ function Menu(){
                         </thead>
                         
                         <tbody className="">
-                        {tables.length > 0 ? tables.map((table, index) => (
+                        {tables.length > 0 ? tables.filter((items) => {
+                            return items.tableName.toLowerCase().includes(searchTermsT)
+                        }).map((table, index) => (
                             <tr key={index} className="h-10">
                                 <td>{table.createdAt}</td>
                                 <td>{table.tableName}</td>
