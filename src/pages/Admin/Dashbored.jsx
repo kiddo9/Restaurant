@@ -1,7 +1,15 @@
+//import { useState } from "react"
 import AdminHeader from "../../components/Admin/AdminHeader"
+import useTables from "../../components/FetchData/tables"
 
 
-function Dashbored(){{
+
+function Dashbored(){
+    //const [resfresh, setRefresh] = useState(0)
+
+    const {tables} = useTables()
+
+
     return(
         <div className="text-black overflow-x-scroll lg:overflow-x-hidden h-full open">
             <AdminHeader PageTitle='Dashbored' />
@@ -24,12 +32,12 @@ function Dashbored(){{
                 </div>
 
                 <div className="flex flex-col rounded-xl lg:px-4 justify-center items-center gap-3 bg-black text-white py-4">
-                    <h1>0</h1>
+                    <h1>{tables.filter(table => table.tableType == "guest").length}</h1>
                     <p1>Avialable Guest Seats</p1>
                 </div>
 
                 <div className="flex flex-col rounded-xl lg:px-4 justify-center items-center gap-3 bg-black text-white py-4">
-                    <h1>0</h1>
+                    <h1>{tables.filter(table => table.tableType == "vip").length}</h1>
                     <p1>Avaliable Vip Seats</p1>
                 </div>
             </div>
@@ -604,6 +612,6 @@ function Dashbored(){{
             </div>
         </div>
     )
-}}
+}
 
 export default Dashbored

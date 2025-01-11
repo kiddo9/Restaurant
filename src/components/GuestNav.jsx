@@ -41,7 +41,7 @@ function GuestNav({name}) {
                     <NavLink to='/dashbored/GuestAccount' className={({isActive}) => `${isActive ? 'xl:text-white' : ''}`}>Guest Menu</NavLink>
                 </li>
                 <li>
-                    <NavLink to='/Guest/guest table' className={({isActive}) => `${isActive ? 'xl:text-white' : ''}`}>Guest Tables</NavLink>
+                    <NavLink to='/Guest/guesttable' className={({isActive}) => `${isActive ? 'xl:text-white' : ''}`}>Guest Tables</NavLink>
                 </li>
                 <li>
                     <NavLink to='/Guest/guestBooking' className={({isActive}) => `${isActive ? 'xl:text-white' : ''}`}>Booking</NavLink>

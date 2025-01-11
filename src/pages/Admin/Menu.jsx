@@ -1,7 +1,7 @@
 //import the necessary components and others
 
 
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import AdminHeader from "../../components/Admin/AdminHeader"
 import FormC from "../../components/FormC";
 import FormInput from "../../components/FormInput"
@@ -17,6 +17,7 @@ import Comfirmation from "../../components/Comfirmation";
 import Preview from "../../components/Admin/Preview";
 import PreLoader from "../../components/preLoader";
 import useTables from "../../components/FetchData/tables";
+import Pagination from "../../components/pagination";
 
 
 
@@ -553,6 +554,25 @@ function Menu(){
     }
         
     }
+
+    //pagination set up
+    const [currentData, setCurrentData] = useState([]);
+    const [currentTable, setCurrentTable] = useState([]);
+    
+    const itemsPerPage = 10;
+    
+    useEffect(() => {
+      // Update `currentData` if `dishes` changes
+      if (Array.isArray(dishes)) {
+        setCurrentData(dishes.slice(0, itemsPerPage));
+      }
+    
+      // Update `currentTable` if `tables` changes
+      if (Array.isArray(tables)) {
+        setCurrentTable(tables.slice(0, itemsPerPage));
+      }
+    }, [dishes, tables, itemsPerPage]);
+    
   
 
     
@@ -876,7 +896,7 @@ function Menu(){
                         <tbody className="">
                             {
                                 
-                        dishes.filter((items) => {
+                        currentData.filter((items) => {
                             return items.dishName.toLowerCase().includes(searchTerms)
                         }).map((dish) => (
                              <tr key={dish.id} className="h-10">
@@ -930,7 +950,8 @@ function Menu(){
                         </thead>
                         
                         <tbody className="">
-                        {tables.length > 0 ? tables.filter((items) => {
+                        { 
+                        currentTable.filter((items) => {
                             return items.tableName.toLowerCase().includes(searchTermsT)
                         }).map((table, index) => (
                             <tr key={index} className="h-10">
@@ -951,17 +972,7 @@ function Menu(){
                                     </svg>
                                 </td>
                             </tr>
-                        )): (
-                            <tr>
-                               <td>No table</td>
-                               <td>No table</td>
-                               <td>No table</td>
-                               <td>No table</td>
-                               <td>No table</td>
-                               <td>No table</td>
-                            </tr>
-                            
-                        )}
+                        ))}
                             
                         </tbody>
                     </table>
@@ -976,17 +987,12 @@ function Menu(){
 
                 {/* pagenation */}
 
-                <div className={`flex justify-center mt-8`}>
-                        <ul className="flex gap-4 mb-3">
-                            <li className="border px-1 py-1 rounded-lg text-center bg-black text-white border-black w-7">1</li>
-                            <li className="border px-1 py-1 rounded-lg text-center border-black w-7">2</li>
-                            <li className="border px-1 py-1 rounded-lg text-center border-black w-7">3</li>
-                            <li className="border px-1 py-1 rounded-lg text-center border-black w-7">4</li>
-                            <li className="border px-1 py-1 rounded-lg text-center border-black w-7">5</li>
-                            <li className="border px-1 py-1 rounded-lg text-center border-black w-7">6</li>
-                            <li className="border px-1 py-1 rounded-lg text-center border-black w-7">7</li>
-                        </ul>
-                    </div>
+                {!openTable ? (
+                    <Pagination data={dishes} itemsPerPage={itemsPerPage} onPageChange={(pageData) => setCurrentData(pageData)} />
+                ): (
+                    <Pagination data={tables} itemsPerPage={itemsPerPage} onPageChange={(pageData) => setCurrentTable(pageData)} />
+                )}
+                
             </div>
 
 
