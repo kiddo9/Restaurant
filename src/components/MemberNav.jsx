@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 
 function MemberNav({name}) {
 
@@ -8,6 +8,8 @@ function MemberNav({name}) {
     const toggle = () => {
         OpenMenu(!menu)
     }
+
+    const navigate = useNavigate()
 
   return (
     <div className="text-[#101A24]">
@@ -37,14 +39,14 @@ function MemberNav({name}) {
 
             <div>
                 <ul className="items-center hidden gap-6 py-5 pr-10 text-gray-300 xl:flex">
-                <li className="text-[#EA6D27]">
-                    <NavLink to='/dashbored/MembershipAccount'>Menu</NavLink>
+                <li className="">
+                    <NavLink to='/Member/MembershipAccount' className={({isActive}) => `${isActive ? 'text-[#EA6D27]' : ''}`}>Menu</NavLink>
                 </li>
                 <li>
-                    <NavLink to='/Memeber/table'>Tables</NavLink>
+                    <NavLink to='/Member/table' className={({isActive}) => `${isActive ? 'text-[#EA6D27]' : ''}`}>Tables</NavLink>
                 </li>
                 <li>
-                    <NavLink to='/memeber/Booking'>Booking</NavLink>
+                    <NavLink to='/Member/Booking' className={({isActive}) => `${isActive ? 'text-[#EA6D27]' : ''}`}>Booking</NavLink>
                 </li>
                 <li>
                     <NavLink to=''>Exclusive Offers</NavLink>
@@ -57,6 +59,19 @@ function MemberNav({name}) {
                 </li>
                 <li>
                     <NavLink to=''>Invite Friends</NavLink>
+                </li>
+
+                <li onClick={() => {
+                    sessionStorage.removeItem('authMember');
+                    localStorage.removeItem('memberAuthToken');
+                    navigate('Auth/Login/member')
+                }}>
+                    <div className="flex justify-center gap-3 cursor-pointer items-center bg-black text-red-500 mx-2 py-1 rounded-tr-2xl rounded-bl-2xl px-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                        </svg>
+                         Log out
+                    </div>
                 </li>
                 </ul>
             </div>
@@ -68,14 +83,14 @@ function MemberNav({name}) {
         {menu && (
            <div className={`fixed top-0 h-full w-full bg-[#101A24] z-[900]`}>
             <ul className="flex flex-col items-center font-semibold gap-10 mt-20 text-gray-300 text-xl h-[30rem]">
-                <li className="text-[#EA6D27]">
-                    <NavLink to='/dashbored/GuestAccount'>Menu</NavLink>
+                <li onClick={toggle}>
+                    <NavLink to='/Member/MembershipAccount' className={({isActive}) => `${isActive ? 'text-[#EA6D27]' : ''}`}>Menu</NavLink>
                 </li>
-                <li>
-                    <NavLink to='/Member/table'>Tables</NavLink>
+                <li onClick={toggle}>
+                    <NavLink to='/Member/table' className={({isActive}) => `${isActive ? 'text-[#EA6D27]' : ''}`}>Tables</NavLink>
                 </li>
-                <li>
-                    <NavLink to='/member/booking'>Booking</NavLink>
+                <li onClick={toggle}>
+                    <NavLink to='/Member/booking' className={({isActive}) => `${isActive ? 'text-[#EA6D27]' : ''}`}>Booking</NavLink>
                 </li>
                 <li>
                     <NavLink to=''>Exclusive Offers</NavLink>
@@ -88,6 +103,18 @@ function MemberNav({name}) {
                 </li>
                 <li>
                     <NavLink to=''>Invite Friends</NavLink>
+                </li>
+                <li onClick={() => {
+                    sessionStorage.removeItem('authMember');
+                    localStorage.removeItem('memberAuthToken');
+                    navigate('/Auth/Login/member')
+                }}>
+                    <div className="flex justify-center gap-3 mt-3 py-3 cursor-pointer items-center bg-black text-red-500 mx-2 rounded-tr-2xl rounded-bl-2xl px-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                        </svg>
+                         Log out
+                    </div>
                 </li>
             </ul>
         </div> 

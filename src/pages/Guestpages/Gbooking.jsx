@@ -1,11 +1,13 @@
 import { useState } from "react"
 import FormC from "../../components/FormC"
 import Forminput from "../../components/FormInput"
-import GuestNav from "../../components/GuestNav"
+import useTables from "../../components/FetchData/tables"
+import Loader from "../../components/Loader"
 
 function Gbooking() {
     const [book, setBook] = useState(false)
     const [history, sethistory] = useState(false)
+    const {tables, preLoad} = useTables()
 
     function openbook(){
       setBook(true)
@@ -22,7 +24,9 @@ function Gbooking() {
 
   return (
     <div className="text-black">
-      <GuestNav name={'prayer'} />
+      {preLoad && (
+        <Loader />
+      )}
 
       <div className={`flex gap-10 px-2 ${book || history ? 'hidden' : ''}`}>
         <button className="w-full mt-5 bg-[#101A24] px-6 py-2 rounded-tl-2xl rounded-br-2xl text-white shadow-zinc-800 shadow-lg sm:px-10 sm:py-4" onClick={openbook}>BOOK TABLE</button>
@@ -38,37 +42,25 @@ function Gbooking() {
          <>
 
     <div className="pt-14 md:mx-32 lg:mx-44 xl:mx-72">
-      <FormC>
-        <select className="w-full px-2 py-3 bg-transparent border border-black">
+      <FormC Style={'mt-3 pb-20'}>
+        <select className="w-full px-2 py-3 rounded-xl bg-transparent border border-black">
         <option value="Selete Table" disabled>select table</option>
-          <option value="Couples">Couple&apos;s Table</option>
-          <option value="Bar height">Bar height</option>
-          <option value="Booths">Booths</option>
-          <option value="Family Table">Family Table</option>
-          <option value="outdoor Table">Outdoor Table</option>
-        </select>
-        <Forminput Title='first Name' Type='text' FieldName='firstname' Component='p' ContainerStyle='text-black flex flex-col' InputStyle='bg-white outline-none border border-black py-3' />
-        <Forminput Title='first Name' Type='text' FieldName='firstname' Component='p' ContainerStyle='text-black flex flex-col' InputStyle='bg-white outline-none border border-black py-3' />
-        <Forminput Title='first Name' Type='text' FieldName='firstname' Component='p' ContainerStyle='text-black flex flex-col' InputStyle='bg-white outline-none border border-black py-3' />
-        <Forminput Title='first Name' Type='date' FieldName='firstname' Component='p' ContainerStyle='text-black flex flex-col' InputStyle='bg-white outline-none border border-black py-3' />
-        <select className="w-full px-2 py-3 mt-3 bg-transparent border border-black">
-        <option value="Select guest number" disabled>Select guest number</option>
-          <option value="Couples">2</option>
-          <option value="Bar height">4</option>
-          <option value="Booths">8</option>
-          <option value="Family Table">12</option>
-          <option value="outdoor Table">16</option>
-        </select>
-        <select className="w-full px-2 py-3 mt-3 bg-transparent border border-black">
-        <option value="Special Request" disabled>Special Request</option>
-          <option value="Couples">Couple&apos;s Table</option>
-          <option value="Bar height">Bar height</option>
-          <option value="Booths">Booths</option>
-          <option value="Family Table">Family Table</option>
-          <option value="outdoor Table">Outdoor Table</option>
-        </select>
+        {tables.map((table) => (
+            table.tableType == "guest" && (
+              <option key={table.id} value={table.tableName}>{table.tableName}</option>
+            )
+          ))}
 
-        <button type="submit" className="text-center text-white font-bold w-full px-36 py-2 rounded-3xl mt-4 bg-[#EA6D27]">Book ($20)</button>
+        </select>
+        <Forminput Title='first Name' Type='text' FieldName='firstname' Component='p' ContainerStyle='text-black mt-4 flex flex-col' InputStyle='bg-white outline-none border rounded-xl border-black py-3 px-3' />
+        <Forminput Title='last Name' Type='text' FieldName='lastname' Component='p' ContainerStyle='text-black flex mt-4 flex-col' InputStyle='bg-white outline-none border border-black rounded-xl py-3 px-3' />
+        <Forminput Title='number of Adult' Type='number' FieldName='firstname' Component='p' ContainerStyle='text-black mt-4 flex flex-col' InputStyle='bg-white outline-none border border-black rounded-xl px-3 py-3' />
+        <Forminput Title='number of children' Type='number' FieldName='firstname' Component='p' ContainerStyle='text-black mt-4 flex flex-col' InputStyle='bg-white outline-none border border-black rounded-xl px-3 py-3' />
+        <Forminput Title='date' Type='date' FieldName='firstname' Component='p' ContainerStyle='text-black flex mt-4 flex-col' InputStyle='bg-white outline-none border border-black rounded-xl px-3 py-3' />
+        <input type="time" className="w-full px-2 rounded-xl py-3 mt-3 bg-transparent border border-black" />
+       
+
+        <button type="submit" className="text-center text-white font-bold w-full px-36 py-3 rounded-xl mt-4 bg-[#EA6D27]">Book ($20)</button>
       </FormC>
     </div>
     </>
@@ -98,7 +90,7 @@ function Gbooking() {
           Booking Time: 7am - 6:30pm
           </p>
 
-          <p className="mt-10">Note: After Making reservation and you are 30mins later your table will given out. Also if you miss your reservation date you won't get a refund if you have a reason to miss the date of reservation contact us 2 days before time</p>
+          <p className="mt-10">Note: After Making reservation and you are 30mins later your table will given out. Also if you miss your reservation date you won&apos;t get a refund if you have a reason to miss the date of reservation contact us 2 days before time</p>
         </div>
       )}
 

@@ -72,23 +72,37 @@ function Signup() {
 
   // Membership Registration logic's and request
   const MembershipInit = {
-    email: '',
+    email: sessionStorage.getItem('upgradeAccountWithEmail') != null 
+      ? JSON.parse(sessionStorage.getItem('upgradeAccountWithEmail'))
+      : '',
     username: '',
     password: '',
-    cpassword: ''
-  }
+    cpassword: '',
+  };
+  
 
   const MembershipRegistration = async(values) =>  {
     SetLoader(true)
     const MemberRequest = await Axios.post(`${Api}/api/v1/membershipReg`, values)
     try {
-      SetLoader(false)
-      console.log('ok', MemberRequest);
       
+      if(MemberRequest.data.success != true){
+        SetError(true)
+        Setmessage(MemberRequest.data.message)
+      }else{
+        SetSuccess(true)
+        Setmessage(MemberRequest.data.message)
+      }
+
     } catch (error) {
       console.log(error);
-      
+      SetError(true)
+      Setmessage(MemberRequest.data.message)
+
+    }finally{
+      SetLoader(false)
     }
+    
   }
 
 
@@ -106,11 +120,14 @@ function Signup() {
        </div>
      ) : url == `${Urls}/Auth/Signup/member` ? (
       <div className="flex justify-center gap-3 mt-44">
-      <FormC DefualtValue={MembershipInit} FormSchema={MembershipFormValidation} Submission={MembershipRegistration}>
-        <FormInput Title='Email' Type='email' ErrorStyle='text-red-500' FieldName='email' Component='p' ContainerStyle='text-black flex flex-col' InputStyle='bg-white outline-none border border-black py-3 rounded-2xl'/>
-        <FormInput Title='Username' Type='username' ErrorStyle='text-red-500' FieldName='username' Component='p' ContainerStyle='text-black flex flex-col' InputStyle='bg-white outline-none border border-black py-3 rounded-2xl'/>
-        <FormInput Title='Password' Type='password' ErrorStyle='text-red-500' FieldName='password' Component='p' ContainerStyle='text-black flex flex-col' InputStyle='bg-white outline-none border border-black py-3 rounded-2xl'/>
-        <FormInput Title='Re-enter password' Type='password' ErrorStyle='text-red-500' FieldName='cpassword' Component='p' ContainerStyle='text-black flex flex-col' InputStyle='bg-white outline-none border border-black py-3 rounded-2xl'/>
+      <FormC DefualtValue={MembershipInit} FormSchema={MembershipFormValidation}  Submission={MembershipRegistration}>
+
+      ${sessionStorage.getItem('upgradeAccountWithEmail') == null && (
+        <FormInput Title='Email' Type='email' ErrorStyle='text-red-500' FieldName='email' Component='p' ContainerStyle={`text-black flex flex-col`} InputStyle='bg-white outline-none border border-black py-3 px-3 rounded-2xl'/>
+      )}
+        <FormInput Title='Username' Type='username' ErrorStyle='text-red-500' FieldName='username' Component='p' ContainerStyle='text-black flex flex-col' InputStyle='bg-white outline-none border border-black py-3 px-3 rounded-2xl'/>
+        <FormInput Title='Password' Type='password' ErrorStyle='text-red-500' FieldName='password' Component='p' ContainerStyle='text-black flex flex-col' InputStyle='bg-white outline-none border border-black py-3 px-3 rounded-2xl'/>
+        <FormInput Title='Re-enter password' Type='password' ErrorStyle='text-red-500' FieldName='cpassword' Component='p' ContainerStyle='text-black flex flex-col' InputStyle='bg-white outline-none border border-black py-3 px-3 rounded-2xl'/>
         <button type="submit" className="text-center text-white font-bold w-full px-36 py-2 rounded-xl mt-4 bg-[#EA6D27]">Become a member</button>
       </FormC>
       </div>
@@ -118,7 +135,7 @@ function Signup() {
 
      {
       Success && (
-        <SuccessError Image='https://i.pinimg.com/originals/35/f3/23/35f323bc5b41dc4269001529e3ff1278.gif' style='bg-gray-50' message='Resgistration Successful. Your Guest Id will be sent to your email. Click OK to Proceed' click={() => navigation('/Auth/Login/guest')} />
+        <SuccessError Image='https://i.pinimg.com/originals/35/f3/23/35f323bc5b41dc4269001529e3ff1278.gif' style='bg-gray-50' message='Resgistration Successful. Your membership token will be sent to your email. Click OK to Proceed' click={() => navigation('/Auth/Login/member')} />
       )
      }
 

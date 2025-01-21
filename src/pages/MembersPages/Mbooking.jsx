@@ -1,11 +1,13 @@
 import { useState } from "react"
 import FormC from "../../components/FormC"
 import Forminput from "../../components/FormInput"
-import MemberNav from "../../components/MemberNav"
+//import useTables from "../../components/FetchData/tables"
+
 
 function Mbooking() {
     const [book, setBook] = useState(false)
     const [history, sethistory] = useState(false)
+    // const {tables, preLoad} = useTables()
 
     function openbook(){
       setBook(true)
@@ -22,7 +24,6 @@ function Mbooking() {
 
   return (
     <div className="text-black">
-      <MemberNav name={'prayer'} />
 
       <div className={`flex gap-10 px-2 ${book || history ? 'hidden' : ''}`}>
         <button className="w-full mt-5  bg-[#EA6D27] px-6 py-2 rounded-tl-2xl rounded-br-2xl text-white shadow-zinc-800 shadow-lg sm:px-10 sm:py-4" onClick={openbook}>BOOK TABLE</button>
@@ -87,7 +88,7 @@ function Mbooking() {
           <h1 className="text-3xl font-bold">Membership Booking</h1>
           <p>Table booking is always available for you. No time limit </p>
 
-          <p className="px-3 mt-10">Note: After Making reservation and you are 30mins later your table will given out. Also if you miss your reservation date you won't get a refund if you have a reason to miss the date of reservation contact us 2 days before time</p>
+          <p className="px-3 mt-10">Note: After Making reservation and you are 30mins later your table will given out. Also if you miss your reservation date you won&apos;t get a refund if you have a reason to miss the date of reservation contact us 2 days before time</p>
         </div>
       )}
 

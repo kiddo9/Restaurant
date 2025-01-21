@@ -21,23 +21,28 @@ import Charts from './pages/Admin/Charts'
 import History from './pages/Admin/History'
 import Users from './pages/Admin/Users'
 import Settings from './pages/Admin/Settings'
-import {Context} from './components/URL/context'
+import {Check, GuestLoggedIn, MemberLoggedIn} from './components/URL/context'
 import AdminMenu  from './pages/Admin/Menu'
 import NotFound from './components/NotFound'
+import Forgotton from './pages/Admin/Forgotton'
+import SetPassword from './pages/Admin/setPassword'
+import OtpValidation from './pages/Admin/otpValidation'
+import ResetPassword from './pages/Admin/resetPassword'
+import GuestNav from './components/GuestNav'
+import Gmenu from './pages/Guestpages/Gmenu'
+import MemberNav from './components/MemberNav'
+import Mmenu from './pages/MembersPages/Mmenu'
 
 
 function App() {
   
-  const AdminPath = location.pathname.startsWith('/Admin')
-  const GuestPath = location.pathname.startsWith('/Guest')
-
+  //const AdminPath = location.pathname.startsWith('/Admin')
+ 
   return (
     <>
      <BrowserRouter>
-      <Context> {/* Wrapping entire app with Context */}
         <div>
           {/* Render AdminNav conditionally based on AdminPath */}
-          {AdminPath && <AdminNav />}
 
           {/* Main Navigation Routes */}
           <Routes>
@@ -52,35 +57,60 @@ function App() {
             <Route path='/Auth/Login/:id' element={<Login />} />
             <Route path='/Auth/EmailVerify/:id' element={<TokenVerify />} />
             <Route path='/dashbored/:id' element={<Dashbored />} />
-            <Route path='/Member/table' element={<Mtable />} />
-            <Route path='/Member/booking' element={<Mbooking />} />
+            
             <Route path='/Auth/Admin' element={<AdminLogin />} />
+            <Route path='/forgottonPassword/admin' element={<Forgotton />} />
+            <Route path='/api/v3/setpassword/:email' element={<SetPassword />} />
+            <Route path='/otp/validate/:token' element={<OtpValidation />} />
+            <Route path='/resetpassword/:token' element={<ResetPassword />} />
 
-            {/* Guest Routes */}
-            {GuestPath && (
-              <>
-                <Route path='/Guest/guesttable' element={<Gtable />} />
-                <Route path='/Guest/guestBooking' element={<Gbooking />} />
-              </>
-            )}
+            
+            <Route path='/Guest/*' element={
+              <GuestLoggedIn>
+                <GuestNav />
+                  <Routes>
+                    <Route path='guesttable' element={<Gtable />} />
+                    <Route path='guestBooking' element={<Gbooking />} />
+                    <Route path='GuestAccount' element={<Gmenu />} />
+                  </Routes>
+              </GuestLoggedIn>
+              
+            } />
 
-            {/* Admin Routes */}
-            {AdminPath && (
-              <>
-                <Route path='/Admin/Dashbored' element={<AdminDashbored />} />
-                <Route path='/Admin/Charts' element={<Charts />} />
-                <Route path='/Admin/History' element={<History />} />
-                <Route path='/Admin/Users' element={<Users />} />
-                <Route path='/Admin/Settings' element={<Settings />} />
-                <Route path='/Admin/Menu' element={<AdminMenu />} />
-              </>
-            )}
+            <Route path='/Admin/*' element={
+              
+              <Check>
+                <AdminNav />
+                <Routes>
+                    <Route path='Dashbored' element={<AdminDashbored />} />
+                    <Route path='Charts' element={<Charts />} />
+                    <Route path='History' element={<History />} />
+                    <Route path='Users' element={<Users />} />
+                    <Route path='Settings' element={<Settings />} />
+                    <Route path='Menu' element={<AdminMenu />} />
+                </Routes>
+              </Check>
+
+            } />
+
+            <Route path='/Member/*' element={
+              <MemberLoggedIn>
+                 <MemberNav />
+                <Routes>
+                  <Route path='MembershipAccount' element={<Mmenu/>} />
+                  <Route path='table' element={<Mtable />} />
+                  <Route path='booking' element={<Mbooking />} />
+                </Routes>
+              </MemberLoggedIn> 
+            } />
+              
+
+           
 
             {/* Catch-all Route */}
             <Route path='*' element={<NotFound />} />
           </Routes>
         </div>
-      </Context>
     </BrowserRouter>
     </>
   )
