@@ -32,6 +32,7 @@ import GuestNav from './components/GuestNav'
 import Gmenu from './pages/Guestpages/Gmenu'
 import MemberNav from './components/MemberNav'
 import Mmenu from './pages/MembersPages/Mmenu'
+import Gview from './pages/Guestpages/Gview'
 
 
 function App() {
@@ -72,6 +73,7 @@ function App() {
                     <Route path='guesttable' element={<Gtable />} />
                     <Route path='guestBooking' element={<Gbooking />} />
                     <Route path='GuestAccount' element={<Gmenu />} />
+                    <Route path='booking/details' element={<Gview />} />
                   </Routes>
               </GuestLoggedIn>
               

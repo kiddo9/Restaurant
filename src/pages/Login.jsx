@@ -50,7 +50,7 @@ function Login() {
           if(verifyToken.data.success == true){
             sessionStorage.setItem('authMember', true)
             SetLoader(false)
-            navigation('/dashbored/MembershipAccount')
+            navigation('/Member/MembershipAccount')
           }else{
             navigation('/Auth/Login/member')
             SetLoader(false)

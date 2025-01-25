@@ -3,11 +3,29 @@ import FormC from "../../components/FormC"
 import Forminput from "../../components/FormInput"
 import useTables from "../../components/FetchData/tables"
 import Loader from "../../components/Loader"
+import * as Yup from 'yup'
+import { Field } from "formik"
+import Axios from "axios"
+import Api from "../../components/URL/Api"
+import SuccessError from "../../components/SuccessError"
+
+const bookingValidation = Yup.object().shape({
+      firstname: Yup.string().required('enter first name'),
+      lastname: Yup.string().required('enter last name'),
+      mobile: Yup.string().required('enter mobile number'),
+      nog: Yup.string().required('enter number of guests'),
+      date: Yup.string().required('enter date of arrival'),
+      time: Yup.string().required('enter time ')
+})
 
 function Gbooking() {
     const [book, setBook] = useState(false)
     const [history, sethistory] = useState(false)
     const {tables, preLoad} = useTables()
+    const [load, setLoad] = useState(false)
+    const [success, setSuccess] = useState(false)
+    const [message, setMessage] = useState("")
+    const [error, setError] = useState(false)
 
     function openbook(){
       setBook(true)
@@ -22,9 +40,43 @@ function Gbooking() {
       sethistory(false)
     }
 
+    const initValue = {
+      preference: '',
+      firstname: '',
+      lastname: '',
+      mobile: '',
+      nog: '',
+      date: '',
+      time: '',
+      timeStap: ''
+    }
+
+    const handleBooking = async(value) => {
+      setLoad(true)
+      const bookRequest = await Axios.post(`${Api}/guest/book`, value)
+
+      try {
+
+        if(bookRequest.data.success == true){
+          setSuccess(true)
+          setMessage(bookRequest.data.message)
+        }else{
+          setError(true)
+          setMessage(bookRequest.data.message)
+        }
+      } catch (error) {
+          setError(true)
+          setMessage(bookRequest.data.message)
+      }finally{
+        setLoad(false)
+      }
+      
+      
+    }
+
   return (
     <div className="text-black">
-      {preLoad && (
+      {preLoad || load && (
         <Loader />
       )}
 
@@ -42,23 +94,45 @@ function Gbooking() {
          <>
 
     <div className="pt-14 md:mx-32 lg:mx-44 xl:mx-72">
-      <FormC Style={'mt-3 pb-20'}>
-        <select className="w-full px-2 py-3 rounded-xl bg-transparent border border-black">
-        <option value="Selete Table" disabled>select table</option>
-        {tables.map((table) => (
-            table.tableType == "guest" && (
-              <option key={table.id} value={table.tableName}>{table.tableName}</option>
-            )
-          ))}
+      <FormC Style={'mt-3 pb-20'} DefualtValue={initValue} FormSchema={bookingValidation} Submission={handleBooking} >
+      <label htmlFor="">preference</label>
+      <Field
+          as="select"
+          name="preference"
+          className="w-full px-2 py-3 rounded-xl bg-transparent border border-black"
+        >
+          <option value="" disabled>
+            Select a table
+          </option>
+          {tables
+            .filter((table) => table.tableType == "guest") // Filter tables before rendering
+            .map((table) => (
+              <option key={table.id} value={table.id}>
+                {table.tableName}
+              </option>
+            ))}
+        </Field>
 
-        </select>
-        <Forminput Title='first Name' Type='text' FieldName='firstname' Component='p' ContainerStyle='text-black mt-4 flex flex-col' InputStyle='bg-white outline-none border rounded-xl border-black py-3 px-3' />
-        <Forminput Title='last Name' Type='text' FieldName='lastname' Component='p' ContainerStyle='text-black flex mt-4 flex-col' InputStyle='bg-white outline-none border border-black rounded-xl py-3 px-3' />
-        <Forminput Title='number of Adult' Type='number' FieldName='firstname' Component='p' ContainerStyle='text-black mt-4 flex flex-col' InputStyle='bg-white outline-none border border-black rounded-xl px-3 py-3' />
-        <Forminput Title='number of children' Type='number' FieldName='firstname' Component='p' ContainerStyle='text-black mt-4 flex flex-col' InputStyle='bg-white outline-none border border-black rounded-xl px-3 py-3' />
-        <Forminput Title='date' Type='date' FieldName='firstname' Component='p' ContainerStyle='text-black flex mt-4 flex-col' InputStyle='bg-white outline-none border border-black rounded-xl px-3 py-3' />
-        <input type="time" className="w-full px-2 rounded-xl py-3 mt-3 bg-transparent border border-black" />
-       
+        <Forminput Title='first Name' Type='text' ErrorStyle={'text-red-500'} FieldName='firstname' Component='p' ContainerStyle='text-black mt-4 flex flex-col' InputStyle='bg-white outline-none border rounded-xl border-black py-3 px-3' />
+        <Forminput Title='last Name' Type='text' ErrorStyle={'text-red-500'} FieldName='lastname' Component='p' ContainerStyle='text-black flex mt-4 flex-col' InputStyle='bg-white outline-none border border-black rounded-xl py-3 px-3' />
+        <Forminput Title='mobile' Type='number' ErrorStyle={'text-red-500'} FieldName='mobile' Component='p' ContainerStyle='text-black mt-4 flex flex-col' InputStyle='bg-white outline-none border border-black rounded-xl px-3 py-3' />
+        <Forminput Title='number of guest' ErrorStyle={'text-red-500'} Type='number' FieldName='nog' Component='p' ContainerStyle='text-black mt-4 flex flex-col' InputStyle='bg-white outline-none border border-black rounded-xl px-3 py-3' />
+        <Forminput Title='date' Type='date' ErrorStyle={'text-red-500'} FieldName='date' Component='p' ContainerStyle='text-black flex mt-4 flex-col' InputStyle='bg-white outline-none border border-black rounded-xl px-3 py-3' />
+        <Forminput Title='time' Type='time' ErrorStyle={'text-red-500'} FieldName='time' Component='p' ContainerStyle='text-black flex mt-4 mb-4 flex-col' InputStyle='bg-white outline-none border border-black rounded-xl px-3 py-3' />
+
+        <label htmlFor="">selete AM or PM</label>
+      <Field
+          as="select"
+          name="timeStap"
+          className="w-full px-2 py-3 rounded-xl bg-transparent border border-black"
+        >
+          <option value="AM">
+            AM
+          </option>
+          <option value="PM">
+            PM
+          </option>
+        </Field>
 
         <button type="submit" className="text-center text-white font-bold w-full px-36 py-3 rounded-xl mt-4 bg-[#EA6D27]">Book ($20)</button>
       </FormC>
@@ -94,7 +168,17 @@ function Gbooking() {
         </div>
       )}
 
-      
+      {
+      success && (
+        <SuccessError Image='https://i.pinimg.com/originals/35/f3/23/35f323bc5b41dc4269001529e3ff1278.gif' style='bg-gray-50' message={message} click={() => navigation('/Guest/GuestAccount')} />
+      )
+     }
+
+    {
+      error && (
+        <SuccessError Image='https://media.lordicon.com/icons/wired/flat/38-error-cross-simple.gif' style='bg-white' message={message} click={() => setError(false)} />
+      )
+     }
     </div>
   )
 }

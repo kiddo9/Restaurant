@@ -49,6 +49,9 @@ function GuestNav({name}) {
                     <NavLink to='/Guest/guestBooking' className={({isActive}) => `${isActive ? 'xl:text-white' : ''}`}>Booking</NavLink>
                 </li>
                 <li>
+                    <NavLink to='/Guest/booking/details' className={({isActive}) => `${isActive ? 'xl:text-white' : ''}`}>view details</NavLink>
+                </li>
+                <li>
                     <NavLink to='/' className={({isActive}) => `${isActive ? 'xl:text-white' : ''}`}>Contact</NavLink>
                 </li>
                 <li className="text-md text-center ml-10 text-white bg-[#101A24] py-3 px-2 rounded-tl-2xl rounded-br-2xl">
@@ -72,7 +75,7 @@ function GuestNav({name}) {
         </div>
 
        
-           <div className={`fixed transition duration-450 top-5 ease-in-out ${menu ? 'translate-y-0 translate-x-0' : '-translate-y-[150%] translate-x-[100%]'} right-2 rounded-xl overflow-hidden h-[21.5rem] w-[22rem] bg-gray-200 z-[900]`}>
+           <div className={`fixed transition duration-450 top-5 ease-in-out ${menu ? 'translate-y-0 translate-x-0' : '-translate-y-[150%] translate-x-[100%]'} right-2 rounded-xl overflow-hidden h-[23.5rem] w-[22rem] bg-gray-200 z-[900]`}>
             <ul className="flex flex-col items-start px-3 font-semibold gap-5 mt-5 text-xl h-[13rem]">
                 <li onClick={toggle} className="">
                     <NavLink to='/Guest/GuestAccount' className={({isActive}) => `${isActive ? 'text-[#EA6D27]' : ''}`}>Guest Menu</NavLink>
@@ -83,12 +86,15 @@ function GuestNav({name}) {
                 <li onClick={toggle}>
                     <NavLink to='/Guest/guestBooking' className={({isActive}) => `${isActive ? 'text-[#EA6D27]' : ''}`}>Booking</NavLink>
                 </li>
+                <li onClick={toggle}>
+                    <NavLink to='/Guest/booking/details' className={({isActive}) => `${isActive ? 'text-[#EA6D27]' : ''}`}>view details</NavLink>
+                </li>
                 <li>
                     <NavLink to='/' className={({isActive}) => `${isActive ? 'text-[#EA6D27]' : ''}`}>Contact</NavLink>
                 </li>
             </ul>
 
-            <div className="mx-2">
+            <div className="mx-2 mt-7">
                 <p className="text-xl rounded-xl text-center text-white bg-[#EA6D27] py-3">
                     <NavLink to={'/Auth/Signup/member'} className={`text-[white]`}>Upgrade to membershipAccount</NavLink>
                 </p>
