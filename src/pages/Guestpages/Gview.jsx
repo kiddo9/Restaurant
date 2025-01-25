@@ -98,13 +98,6 @@ const Gview = () => {
                 ))
                 
                 }  
-                {
-                    dish.length == null || dish.length == 0 && (
-                        <div>
-                            <p>No dish added yet</p>
-                        </div>
-                    ) 
-                }
             </div>
            
         </div>
